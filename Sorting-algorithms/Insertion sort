@@ -1,0 +1,30 @@
+def insertion_sort(arr):
+    # Traverse from the second element to the end of the array
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        
+        # Print the initial state of the array at the beginning of each pass
+        print(f"Pass {i}:")
+        print(f"  Key = {key}")
+        
+        # Move elements of arr[0..i-1] that are greater than key to one position ahead
+        # of their current position to make space for the key element
+        while j >= 0 and arr[j] > key:
+            print(f"  {arr[j]} is greater than {key}, moving {arr[j]} to position {j+1}")
+            arr[j + 1] = arr[j]
+            j -= 1
+        
+        # Place the key at the correct position
+        arr[j + 1] = key
+        print(f"  Inserting {key} at position {j+1}")
+        print(f"  Array after Pass {i}: {arr}\n")
+
+    return arr
+
+# Taking user input for the array
+arr = list(map(int, input("Enter the elements of the array, separated by spaces: ").split()))
+
+# Perform insertion sort and print the sorted array
+sorted_array = insertion_sort(arr)
+print(f"Sorted array: {sorted_array}")
