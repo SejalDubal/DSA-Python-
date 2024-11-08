@@ -1,0 +1,36 @@
+def knapsack(Capacity, weights, profit, n, level=0):
+    # Print the current state for tracing
+    print(" " * level * 2 + f"Checking item {n}, Capacity left: {Capacity}")
+
+    # Base case: if no items are left or capacity is 0
+    if n == 0 or Capacity == 0:
+        print(" " * level * 2 + f"Reached base case with profit 0")
+        return 0
+    
+    # If the weight of the nth item is more than the knapsack capacity, it cannot be included
+    if weights[n-1] > Capacity:
+        print(" " * level * 2 + f"Item {n} too heavy (weight {weights[n-1]}), skipping it")
+        return knapsack(Capacity, weights, profit, n-1, level+1)
+    else:
+        # Calculate profit including the nth item
+        include_profit = profit[n-1] + knapsack(Capacity - weights[n-1], weights, profit, n-1, level+1)
+        # Calculate profit excluding the nth item
+        exclude_profit = knapsack(Capacity, weights, profit, n-1, level+1)
+
+        # Choose the maximum of the two profits
+        result = max(include_profit, exclude_profit)
+        print(" " * level * 2 + f"Max profit at item {n} with Capacity {Capacity}: {result} (Include: {include_profit}, Exclude: {exclude_profit})")
+        return result
+
+# Input section
+print("Enter profits: ")
+profit = list(map(int, input().split()))
+print("Enter the weights: ")
+weights = list(map(int, input().split()))
+Capacity = int(input("Enter the maximum capacity: "))
+
+# Call the knapsack function
+n = len(weights)
+print("\nStarting 0/1 Knapsack with process trace...\n")
+max_profit = knapsack(Capacity, weights, profit, n)
+print(f"\nMaximum profit: {max_profit}")
